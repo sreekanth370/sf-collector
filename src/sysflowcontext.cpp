@@ -55,6 +55,10 @@ SysFlowContext::SysFlowContext(bool fCont, int fDur, string oFile,
     m_nodeIP = std::string(ip);
   }
   m_inspector->open(m_scapFile);
+  if(m_scapFile.empty()) {
+    m_inspector->start_dropping_mode(1.0);
+    m_inspector->set_snaplen(0);
+  }
   m_offline = !sFile.empty();
   m_hasPrefix = (oFile.back() != '/');
 }

@@ -43,9 +43,10 @@ install: modules \
 
 .PHONY: sysdig/package
 sysdig/package: 
-	cd sysdig && sed -i -E "s/SYSDIG_VERSION \".+\"/SYSDIG_VERSION \"$(SYSDIG_VERSION)\"/" CMakeLists.txt && sed -i '/ctext.cpp/d' userspace/libsinsp/CMakeLists.txt &&  sed -i '/table.cpp/d' userspace/libsinsp/CMakeLists.txt && \
+	patch sysdig/driver/syscall_table.c ./syscall_table.patch &&  patch sysdig/driver/bpf/probe.c probe.patch && cd sysdig && sed -i -E "s/SYSDIG_VERSION \".+\"/SYSDIG_VERSION \"$(SYSDIG_VERSION)\"/" CMakeLists.txt && \
+	sed -i '/ctext.cpp/d' userspace/libsinsp/CMakeLists.txt &&  sed -i '/table.cpp/d' userspace/libsinsp/CMakeLists.txt && \
 	sed -i "/#define CSYSDIG/d" userspace/libsinsp/settings.h &&  sed -i "/#define HAS_CHISELS/d" userspace/libsinsp/settings.h && mkdir -p build && cd build && \
-    cmake ../. && make tbb grpc c-ares zlib jq curl luajit protobuf b64 openssl scap sinsp && \
+    cmake -DBUILD_BPF=ON ../. && make tbb grpc c-ares zlib jq curl luajit protobuf b64 openssl scap sinsp && \
 	mkdir -p include && mkdir -p lib && mkdir -p bin && \
 	mkdir -p include/curl && cp curl-prefix/src/curl/include/curl/*.h include/curl && \
 	mkdir -p include/driver && cp driver/src/*h include/driver && cp ../driver/*h include/driver && \

@@ -1,0 +1,29 @@
+--- driver/bpf/probe.c	2020-09-27 21:17:14.506926975 +0000
++++ /home/terylt/workspace/sysdig/driver/bpf/probe.c	2020-09-27 20:19:13.010304374 +0000
+@@ -67,7 +67,7 @@
+ 	}
+ 
+ #ifdef BPF_SUPPORTS_RAW_TRACEPOINTS
+-	call_filler(ctx, ctx, evt_type, settings, drop_flags);
++	call_filler(ctx, ctx, evt_type, settings, UF_ALWAYS_DROP); /*change drop_flags to be UF_ALWAYS_DROP*/
+ #else
+ 	/* Duplicated here to avoid verifier madness */
+ 	struct sys_enter_args stack_ctx;
+@@ -76,7 +76,7 @@
+ 	if (stash_args(stack_ctx.args))
+ 		return 0;
+ 
+-	call_filler(ctx, &stack_ctx, evt_type, settings, drop_flags);
++	call_filler(ctx, &stack_ctx, evt_type, settings, UF_ALWAYS_DROP); /*change drop_flags to be UF_ALWAYS_DROP*/
+ #endif
+ 	return 0;
+ }
+@@ -159,7 +159,7 @@
+ 
+ 	evt_type = PPME_SCHEDSWITCH_6_E;
+ 
+-	call_filler(ctx, ctx, evt_type, settings, 0);
++	call_filler(ctx, ctx, evt_type, settings, UF_ALWAYS_DROP); /*TPT changed from 0 to UF_ALWAYS_DROP*/
+ 	return 0;
+ }
+ 
