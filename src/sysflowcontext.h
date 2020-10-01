@@ -42,7 +42,7 @@ private:
   bool m_hasPrefix;
   string m_outputFile;
   string m_scapFile;
-  string m_schemaFile;
+  uint32_t m_samplingRatio;
   string m_exporterID;
   sinsp *m_inspector;
   int m_nfExportInterval;
@@ -59,7 +59,7 @@ private:
 
 public:
   SysFlowContext(bool fCont, int fDur, string oFile, const string &sFile,
-                 string schFile, string exporterID, string filter,
+                 uint32_t samplingRatio, string exporterID, string filter,
                  string criPath, int criTO);
   virtual ~SysFlowContext();
   uint64_t timeStamp{};
@@ -71,7 +71,6 @@ public:
   inline int getNFExpireInterval() { return m_nfExpireInterval; }
   inline string getOutputFile() { return m_outputFile; }
   inline string getScapFile() { return m_scapFile; }
-  inline const char *getSchemaFile() { return m_schemaFile.c_str(); }
   inline bool hasPrefix() { return m_hasPrefix; }
   inline int getFileDuration() { return m_fileDuration; }
   inline bool isFilterContainers() { return m_filterCont; }

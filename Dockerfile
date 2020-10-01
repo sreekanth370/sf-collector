@@ -17,7 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG SYSDIG_VER=0.26.7
+ARG SYSDIG_VER=0.27.0
 ARG UBI_VER=8.2.299
 
 #-----------------------
@@ -109,6 +109,8 @@ ENV SYSDIG_BPF_PROBE=${BPF_PROBE:+""}
 ARG SYSDIG_VER
 ENV SYSDIG_VERSION=${SYSDIG_VER}
 
+ARG samplingRate=
+ENV SAMPLING_RATE=$samplingRate
 
 # Update Label
 LABEL "name"="SysFlow Collector"
@@ -148,6 +150,7 @@ CMD /usr/local/sysflow/bin/sysporter \
     ${CRI_PATH:+-p} ${CRI_PATH} \
     ${CRI_TIMEOUT:+-t} ${CRI_TIMEOUT} \
     ${SOCK_FILE:+-u} ${SOCK_FILE} \
+    ${SAMPLING_RATE:+-s} ${SAMPLING_RATE} \
     ${DEBUG:+-d}
 
 #-----------------------
