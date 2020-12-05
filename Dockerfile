@@ -23,7 +23,8 @@ ARG UBI_VER=8.2.299
 #-----------------------
 # Stage: builder
 #-----------------------
-FROM sysflowtelemetry/ubi:mods-${SYSDIG_VER}-${UBI_VER} AS builder
+#FROM sysflowtelemetry/ubi:mods-${SYSDIG_VER}-${UBI_VER} AS builder
+FROM sysflowtelemetry/ubi:mods-0.2.2-dnf-update AS builder
 
 # environment and build args
 ARG BUILD_NUMBER=0
@@ -59,7 +60,8 @@ RUN cd /build/src && \
 #-----------------------
 # Stage: Runtime
 #-----------------------
-FROM sysflowtelemetry/ubi:base-${SYSDIG_VER}-${UBI_VER} AS runtime
+#FROM sysflowtelemetry/ubi:base-${SYSDIG_VER}-${UBI_VER} AS runtime
+FROM sysflowtelemetry/ubi:base-0.2.2-dnf-update AS runtime
 
 # environment variables
 ARG interval=30
